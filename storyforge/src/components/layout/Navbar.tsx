@@ -43,7 +43,10 @@ export default function Navbar() {
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
-      if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) {
+      if (
+        userMenuRef.current &&
+        !userMenuRef.current.contains(e.target as Node)
+      ) {
         setUserMenuOpen(false);
       }
     }
@@ -67,43 +70,46 @@ export default function Navbar() {
   const avatarLetter = displayName.charAt(0).toUpperCase();
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-glass dark:bg-glass border-b border-[var(--border)]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-glass-light dark:bg-glass border-b border-[var(--border)]">
+      <div className="max-w-5xl mx-auto px-6">
+        <div className="flex items-center justify-between h-14">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center">
-              <BookOpen className="w-4 h-4 text-navy-900" />
+          <Link href="/" className="flex items-center gap-2.5 group">
+            <div className="w-7 h-7 rounded-lg bg-[var(--accent)] flex items-center justify-center">
+              <BookOpen className="w-3.5 h-3.5 text-white" />
             </div>
-            <span className="font-display text-xl font-bold text-foreground group-hover:text-gold-500 transition-colors">
+            <span className="font-display text-base font-semibold tracking-tight">
               StoryForge
             </span>
           </Link>
 
-          {/* Desktop Nav — only when logged in */}
+          {/* Desktop Nav */}
           {user && (
-            <div className="hidden md:flex items-center gap-1">
+            <div className="hidden md:flex items-center gap-0.5">
               {navLinks.map((link) => {
                 const isActive =
-                  pathname === link.href || pathname.startsWith(link.href + "/");
-                const Icon = link.icon;
+                  pathname === link.href ||
+                  pathname.startsWith(link.href + "/");
                 return (
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`relative flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                    className={`relative px-3 py-1.5 rounded-md text-[13px] font-medium transition-colors ${
                       isActive
-                        ? "text-gold-500"
+                        ? "text-foreground"
                         : "text-[var(--muted)] hover:text-foreground"
                     }`}
                   >
-                    <Icon className="w-4 h-4" />
                     {link.label}
                     {isActive && (
                       <motion.div
-                        layoutId="navbar-indicator"
-                        className="absolute inset-0 bg-gold-500/10 rounded-lg border border-gold-500/20"
-                        transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                        layoutId="nav-active"
+                        className="absolute inset-0 bg-[var(--surface)] rounded-md -z-10"
+                        transition={{
+                          type: "spring",
+                          bounce: 0.15,
+                          duration: 0.5,
+                        }}
                       />
                     )}
                   </Link>
@@ -113,52 +119,56 @@ export default function Navbar() {
           )}
 
           {/* Right side */}
-          <div className="flex items-center gap-3">
-            {/* Streak — logged in only */}
+          <div className="flex items-center gap-2">
+            {/* Streak */}
             {user && streak > 0 && (
-              <div className="hidden sm:flex items-center gap-1 text-sm">
-                <Flame className="w-4 h-4 text-orange-500" />
-                <span className="font-semibold text-orange-500">{streak}</span>
+              <div className="hidden sm:flex items-center gap-1 text-xs font-medium text-orange-500">
+                <Flame className="w-3.5 h-3.5" />
+                <span>{streak}</span>
               </div>
             )}
 
-            {/* Level Badge — logged in only */}
+            {/* Level */}
             {user && (
-              <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-gold-500/10 border border-gold-500/20">
-                <span className="text-xs font-bold text-gold-500">
+              <div className="hidden sm:flex items-center gap-1.5 px-2 py-1 rounded-md bg-[var(--surface)] text-xs">
+                <span className="font-semibold text-[var(--accent)]">
                   Lv.{level}
                 </span>
-                <span className="text-xs text-[var(--muted)]">{levelTitle}</span>
+                <span className="text-[var(--muted)] hidden lg:inline">
+                  {levelTitle}
+                </span>
               </div>
             )}
 
-            {/* Theme Toggle */}
+            {/* Theme */}
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-lg hover:bg-[var(--surface)] transition-colors"
+              className="p-1.5 rounded-md hover:bg-[var(--surface)] transition-colors"
               aria-label="Toggle theme"
             >
               {theme === "dark" ? (
-                <Sun className="w-4 h-4 text-gold-400" />
+                <Sun className="w-4 h-4 text-[var(--muted)]" />
               ) : (
-                <Moon className="w-4 h-4 text-navy-600" />
+                <Moon className="w-4 h-4 text-[var(--muted)]" />
               )}
             </button>
 
-            {/* User avatar / Auth buttons */}
+            {/* User / Auth */}
             {user ? (
               <div className="relative" ref={userMenuRef}>
                 <button
                   onClick={() => setUserMenuOpen(!userMenuOpen)}
-                  className="w-8 h-8 rounded-full bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center text-navy-900 font-bold text-sm hover:ring-2 hover:ring-gold-500/50 transition-all"
+                  className="w-7 h-7 rounded-full bg-[var(--accent)] flex items-center justify-center text-white font-semibold text-xs hover:opacity-90 transition-opacity"
                 >
                   {avatarLetter}
                 </button>
 
                 {userMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-56 rounded-xl border border-[var(--border)] bg-[var(--surface)] shadow-xl py-2 z-50">
-                    <div className="px-4 py-2 border-b border-[var(--border)]">
-                      <p className="text-sm font-medium truncate">{displayName}</p>
+                  <div className="absolute right-0 mt-2 w-52 rounded-xl border border-[var(--border)] bg-[var(--background)] shadow-xl py-1.5 z-50">
+                    <div className="px-3 py-2 border-b border-[var(--border)]">
+                      <p className="text-sm font-medium truncate">
+                        {displayName}
+                      </p>
                       <p className="text-xs text-[var(--muted)] truncate">
                         {user.email}
                       </p>
@@ -166,17 +176,21 @@ export default function Navbar() {
                     <Link
                       href="/profile"
                       onClick={() => setUserMenuOpen(false)}
-                      className="flex items-center gap-2 px-4 py-2 text-sm text-[var(--muted)] hover:text-foreground hover:bg-[var(--background)] transition-colors"
+                      className="flex items-center gap-2 px-3 py-2 text-sm text-[var(--muted)] hover:text-foreground hover:bg-[var(--surface)] transition-colors"
                     >
-                      <User className="w-4 h-4" />
+                      <User className="w-3.5 h-3.5" />
                       Profile
                     </Link>
-                    <form action="/auth/signout" method="POST" onSubmit={handleLogout}>
+                    <form
+                      action="/auth/signout"
+                      method="POST"
+                      onSubmit={handleLogout}
+                    >
                       <button
                         type="submit"
-                        className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-400 hover:bg-red-500/10 transition-colors"
+                        className="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-500 hover:bg-red-500/5 transition-colors"
                       >
-                        <LogOut className="w-4 h-4" />
+                        <LogOut className="w-3.5 h-3.5" />
                         Log Out
                       </button>
                     </form>
@@ -184,19 +198,17 @@ export default function Navbar() {
                 )}
               </div>
             ) : (
-              <div className="hidden sm:flex items-center gap-2">
+              <div className="hidden sm:flex items-center gap-1.5">
                 <Link
                   href="/auth/login"
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium text-[var(--muted)] hover:text-foreground transition-colors"
+                  className="px-3 py-1.5 rounded-md text-[13px] font-medium text-[var(--muted)] hover:text-foreground transition-colors"
                 >
-                  <LogIn className="w-4 h-4" />
                   Log In
                 </Link>
                 <Link
                   href="/auth/signup"
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-gold-500 to-gold-600 text-navy-900 text-sm font-semibold hover:from-gold-400 hover:to-gold-500 transition-all"
+                  className="px-3 py-1.5 rounded-md bg-[var(--accent)] text-white text-[13px] font-medium hover:bg-[var(--accent-hover)] transition-colors"
                 >
-                  <UserPlus className="w-4 h-4" />
                   Sign Up
                 </Link>
               </div>
@@ -205,7 +217,7 @@ export default function Navbar() {
             {/* Mobile menu button */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="md:hidden p-2 rounded-lg hover:bg-[var(--surface)] transition-colors"
+              className="md:hidden p-1.5 rounded-md hover:bg-[var(--surface)] transition-colors"
             >
               {mobileOpen ? (
                 <X className="w-5 h-5" />
@@ -220,12 +232,11 @@ export default function Navbar() {
       {/* Mobile Nav */}
       {mobileOpen && (
         <motion.div
-          initial={{ opacity: 0, y: -10 }}
+          initial={{ opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
           className="md:hidden border-t border-[var(--border)] bg-[var(--background)]"
         >
-          <div className="px-4 py-3 space-y-1">
+          <div className="px-4 py-2 space-y-0.5">
             {user ? (
               <>
                 {navLinks.map((link) => {
@@ -238,9 +249,9 @@ export default function Navbar() {
                       key={link.href}
                       href={link.href}
                       onClick={() => setMobileOpen(false)}
-                      className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
+                      className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                         isActive
-                          ? "text-gold-500 bg-gold-500/10"
+                          ? "text-[var(--accent)] bg-[var(--accent-muted)]"
                           : "text-[var(--muted)] hover:text-foreground hover:bg-[var(--surface)]"
                       }`}
                     >
@@ -249,10 +260,17 @@ export default function Navbar() {
                     </Link>
                   );
                 })}
-                <form action="/auth/signout" method="POST" onSubmit={() => { setMobileOpen(false); handleLogout(); }}>
+                <form
+                  action="/auth/signout"
+                  method="POST"
+                  onSubmit={() => {
+                    setMobileOpen(false);
+                    handleLogout();
+                  }}
+                >
                   <button
                     type="submit"
-                    className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-red-400 hover:bg-red-500/10 transition-colors"
+                    className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-red-500 hover:bg-red-500/5 transition-colors"
                   >
                     <LogOut className="w-4 h-4" />
                     Log Out
@@ -272,7 +290,7 @@ export default function Navbar() {
                 <Link
                   href="/auth/signup"
                   onClick={() => setMobileOpen(false)}
-                  className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gold-500 bg-gold-500/10"
+                  className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-[var(--accent)] bg-[var(--accent-muted)]"
                 >
                   <UserPlus className="w-4 h-4" />
                   Sign Up
