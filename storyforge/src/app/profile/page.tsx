@@ -8,9 +8,14 @@ import {
   PenTool,
   Target,
   TrendingUp,
+  LogOut,
+  Calendar,
 } from "lucide-react";
 import { useGamificationStore } from "@/stores/useGamificationStore";
 import { useProgressStore } from "@/stores/useProgressStore";
+import { useSettingsStore } from "@/stores/useSettingsStore";
+import { useThemeStore } from "@/stores/useThemeStore";
+import { useAuth } from "@/components/auth/AuthProvider";
 
 import { modules } from "@/data/curriculum";
 import XPBar from "@/components/gamification/XPBar";
@@ -20,6 +25,7 @@ import BadgeGrid from "@/components/gamification/BadgeGrid";
 import ProgressBar from "@/components/ui/ProgressBar";
 
 export default function ProfilePage() {
+  const { user } = useAuth();
   const { xp, level, levelTitle, streak, unlockedBadges } =
     useGamificationStore();
   const { completedLessons, quizScores, submittedExercises } =
@@ -36,6 +42,28 @@ export default function ProfilePage() {
             Object.values(quizScores).length)
         )
       : 0;
+
+  const displayName =
+    user?.user_metadata?.display_name ||
+    user?.user_metadata?.full_name ||
+    user?.email?.split("@")[0] ||
+    "Writer";
+
+  const memberSince = user?.created_at
+    ? new Date(user.created_at).toLocaleDateString("en-US", {
+        month: "long",
+        year: "numeric",
+      })
+    : "";
+
+  const avatarLetter = displayName.charAt(0).toUpperCase();
+
+  function handleLogout() {
+    useProgressStore.getState().reset();
+    useGamificationStore.getState().reset();
+    useSettingsStore.getState().reset();
+    useThemeStore.getState().setUserId(null);
+  }
 
   const stats = [
     {
@@ -91,6 +119,41 @@ export default function ProfilePage() {
           you&apos;ve come.
         </p>
       </motion.div>
+
+      {/* User Account Card */}
+      {user && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.05 }}
+          className="flex items-center gap-4 p-6 rounded-2xl border border-[var(--border)] bg-[var(--surface)] mb-8"
+        >
+          <div className="w-14 h-14 rounded-full bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center text-navy-900 font-bold text-2xl shrink-0">
+            {avatarLetter}
+          </div>
+          <div className="flex-1 min-w-0">
+            <h2 className="font-display text-xl font-bold truncate">
+              {displayName}
+            </h2>
+            <p className="text-sm text-[var(--muted)] truncate">{user.email}</p>
+            {memberSince && (
+              <p className="flex items-center gap-1 text-xs text-[var(--muted)] mt-1">
+                <Calendar className="w-3 h-3" />
+                Member since {memberSince}
+              </p>
+            )}
+          </div>
+          <form action="/auth/signout" method="POST" onSubmit={handleLogout}>
+            <button
+              type="submit"
+              className="flex items-center gap-2 px-4 py-2 rounded-lg border border-red-500/20 text-red-400 text-sm font-medium hover:bg-red-500/10 transition-colors shrink-0"
+            >
+              <LogOut className="w-4 h-4" />
+              Log Out
+            </button>
+          </form>
+        </motion.div>
+      )}
 
       {/* Level & XP */}
       <motion.div

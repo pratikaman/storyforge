@@ -14,6 +14,7 @@ import {
   Zap,
 } from "lucide-react";
 import Button from "@/components/ui/Button";
+import { useAuth } from "@/components/auth/AuthProvider";
 
 const features = [
   {
@@ -75,6 +76,8 @@ const stats = [
 ];
 
 export default function HomePage() {
+  const { user } = useAuth();
+
   return (
     <div className="relative">
       {/* Hero Section */}
@@ -124,9 +127,9 @@ export default function HomePage() {
               transition={{ duration: 0.6, delay: 0.3 }}
               className="flex flex-col sm:flex-row items-center justify-center gap-4"
             >
-              <Link href="/learn">
+              <Link href={user ? "/learn" : "/auth/signup"}>
                 <Button size="lg">
-                  Start Learning
+                  {user ? "Continue Learning" : "Get Started"}
                   <ArrowRight className="w-5 h-5" />
                 </Button>
               </Link>
@@ -342,10 +345,10 @@ export default function HomePage() {
               Every great writer started somewhere. Begin your journey today and
               discover the storyteller within you.
             </p>
-            <Link href="/learn">
+            <Link href={user ? "/learn" : "/auth/signup"}>
               <Button size="lg">
                 <Zap className="w-5 h-5" />
-                Begin Your Journey
+                {user ? "Continue Learning" : "Begin Your Journey"}
               </Button>
             </Link>
           </motion.div>

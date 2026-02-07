@@ -1,11 +1,25 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getProvider, type ProviderName } from "@/lib/providers";
 import { MENTOR_SYSTEM_PROMPT, buildFeedbackPrompt } from "@/lib/mentor";
+import { createClient } from "@/lib/supabase/server";
 
 const VALID_PROVIDERS: ProviderName[] = ["anthropic", "openrouter", "bedrock"];
 
 export async function POST(request: NextRequest) {
   try {
+    // Auth check
+    const supabase = createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+
     const body = await request.json();
     const { exercise, writing, provider: providerName = "anthropic" } = body;
 

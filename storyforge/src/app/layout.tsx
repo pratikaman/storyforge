@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
+import { createClient } from "@/lib/supabase/server";
+import AuthProvider from "@/components/auth/AuthProvider";
 import ThemeProvider from "@/components/layout/ThemeProvider";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -22,21 +24,28 @@ export const metadata: Metadata = {
   keywords: ["storytelling", "creative writing", "writing course", "narrative", "fiction writing"],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${inter.variable} ${playfair.variable} font-body antialiased`}
       >
-        <ThemeProvider>
-          <Navbar />
-          <main className="min-h-screen pt-16">{children}</main>
-          <Footer />
-        </ThemeProvider>
+        <AuthProvider initialUser={user}>
+          <ThemeProvider>
+            <Navbar />
+            <main className="min-h-screen pt-16">{children}</main>
+            <Footer />
+          </ThemeProvider>
+        </AuthProvider>
       </body>
     </html>
   );
