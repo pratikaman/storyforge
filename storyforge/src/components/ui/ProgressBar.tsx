@@ -15,7 +15,7 @@ export default function ProgressBar({
   value,
   max = 100,
   size = "md",
-  color = "from-gold-400 to-gold-600",
+  color = "from-orange-500 to-amber-500",
   showLabel = false,
   animated = true,
 }: ProgressBarProps) {

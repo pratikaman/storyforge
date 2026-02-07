@@ -46,16 +46,20 @@ export default function LoginPage() {
       animate={{ opacity: 1, y: 0 }}
       className="w-full max-w-md mx-4"
     >
-      <div className="p-8 rounded-2xl border border-[var(--border)] bg-[var(--surface)] backdrop-blur-xl shadow-xl">
+      <div className="p-8 rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-xl">
         {/* Header */}
         <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center gap-2 mb-6">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center">
-              <BookOpen className="w-5 h-5 text-navy-900" />
+          <Link href="/" className="inline-flex items-center gap-2.5 mb-6">
+            <div className="w-9 h-9 rounded-xl bg-[var(--accent)] flex items-center justify-center">
+              <BookOpen className="w-4.5 h-4.5 text-white" />
             </div>
-            <span className="font-display text-2xl font-bold">StoryForge</span>
+            <span className="font-display text-xl font-semibold tracking-tight">
+              StoryForge
+            </span>
           </Link>
-          <h1 className="font-display text-2xl font-bold mb-1">Welcome back</h1>
+          <h1 className="font-display text-2xl font-semibold tracking-tight mb-1">
+            Welcome back
+          </h1>
           <p className="text-sm text-[var(--muted)]">
             Sign in to continue your writing journey
           </p>
@@ -63,7 +67,7 @@ export default function LoginPage() {
 
         {/* Error */}
         {error && (
-          <div className="flex items-center gap-2 p-3 mb-6 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
+          <div className="flex items-center gap-2 p-3 mb-6 rounded-lg bg-red-500/10 border border-red-500/20 text-red-500 text-sm">
             <AlertCircle className="w-4 h-4 shrink-0" />
             {error}
           </div>
@@ -72,7 +76,7 @@ export default function LoginPage() {
         {/* Google OAuth */}
         <button
           disabled
-          className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-lg border border-[var(--border)] bg-[var(--background)] text-sm font-medium opacity-50 cursor-not-allowed"
+          className="w-full flex items-center justify-center gap-3 px-4 py-2.5 rounded-lg border border-[var(--border)] bg-[var(--background)] text-sm font-medium opacity-40 cursor-not-allowed"
           title="Google sign-in coming soon"
         >
           <svg className="w-5 h-5 grayscale" viewBox="0 0 24 24">
@@ -94,12 +98,14 @@ export default function LoginPage() {
             />
           </svg>
           Sign in with Google
-          <span className="text-xs text-[var(--muted)]">(Coming soon)</span>
+          <span className="text-xs text-[var(--muted)]">(Soon)</span>
         </button>
 
         <div className="flex items-center gap-3 my-6">
           <div className="flex-1 h-px bg-[var(--border)]" />
-          <span className="text-xs text-[var(--muted)] uppercase">or</span>
+          <span className="text-xs text-[var(--muted)] uppercase tracking-wider font-mono">
+            or
+          </span>
           <div className="flex-1 h-px bg-[var(--border)]" />
         </div>
 
@@ -121,7 +127,7 @@ export default function LoginPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 placeholder="you@example.com"
-                className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-[var(--border)] bg-[var(--background)] text-sm focus:outline-none focus:ring-2 focus:ring-gold-500/50 focus:border-gold-500"
+                className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-[var(--border)] bg-[var(--background)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--accent)]/30 focus:border-[var(--accent)]"
               />
             </div>
           </div>
@@ -142,7 +148,7 @@ export default function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 placeholder="••••••••"
-                className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-[var(--border)] bg-[var(--background)] text-sm focus:outline-none focus:ring-2 focus:ring-gold-500/50 focus:border-gold-500"
+                className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-[var(--border)] bg-[var(--background)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--accent)]/30 focus:border-[var(--accent)]"
               />
             </div>
           </div>
@@ -150,7 +156,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-2.5 rounded-lg bg-gradient-to-r from-gold-500 to-gold-600 text-navy-900 font-semibold text-sm hover:from-gold-400 hover:to-gold-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-2.5 rounded-lg bg-[var(--accent)] text-white font-medium text-sm hover:bg-[var(--accent-hover)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? "Signing in..." : "Sign In"}
           </button>
@@ -160,7 +166,7 @@ export default function LoginPage() {
           Don&apos;t have an account?{" "}
           <Link
             href="/auth/signup"
-            className="text-gold-500 hover:text-gold-400 font-medium"
+            className="text-[var(--accent)] hover:underline font-medium"
           >
             Sign up
           </Link>
