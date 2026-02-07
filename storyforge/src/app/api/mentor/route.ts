@@ -1,22 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import Anthropic from "@anthropic-ai/sdk";
+import { getProvider, type ProviderName } from "@/lib/providers";
 import { MENTOR_SYSTEM_PROMPT, buildFeedbackPrompt } from "@/lib/mentor";
+
+const VALID_PROVIDERS: ProviderName[] = ["anthropic", "openrouter", "bedrock"];
 
 export async function POST(request: NextRequest) {
   try {
-    const apiKey = process.env.ANTHROPIC_API_KEY;
-    if (!apiKey) {
-      return NextResponse.json(
-        {
-          error:
-            "ANTHROPIC_API_KEY not configured. Add it to .env.local to enable AI feedback.",
-        },
-        { status: 500 }
-      );
-    }
-
     const body = await request.json();
-    const { exercise, writing } = body;
+    const { exercise, writing, provider: providerName = "anthropic" } = body;
 
     if (!exercise || !writing) {
       return NextResponse.json(
@@ -32,27 +23,33 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const client = new Anthropic({ apiKey });
-
-    const userPrompt = buildFeedbackPrompt(exercise, writing);
-
-    const message = await client.messages.create({
-      model: "claude-sonnet-4-5-20250929",
-      max_tokens: 1024,
-      system: MENTOR_SYSTEM_PROMPT,
-      messages: [{ role: "user", content: userPrompt }],
-    });
-
-    const textContent = message.content.find((c) => c.type === "text");
-    if (!textContent || textContent.type !== "text") {
+    if (!VALID_PROVIDERS.includes(providerName)) {
       return NextResponse.json(
-        { error: "No response from AI mentor" },
+        { error: `Invalid provider: ${providerName}` },
+        { status: 400 }
+      );
+    }
+
+    const provider = getProvider(providerName);
+
+    if (!provider.isConfigured()) {
+      return NextResponse.json(
+        {
+          error: `${provider.displayName} is not configured. Add the required API keys to .env.local.`,
+        },
         { status: 500 }
       );
     }
 
+    const userPrompt = buildFeedbackPrompt(exercise, writing);
+
+    const responseText = await provider.sendMessage({
+      systemPrompt: MENTOR_SYSTEM_PROMPT,
+      userPrompt,
+      maxTokens: 1024,
+    });
+
     // Extract JSON from the response
-    const responseText = textContent.text;
     const jsonMatch = responseText.match(/\{[\s\S]*\}/);
     if (!jsonMatch) {
       return NextResponse.json(

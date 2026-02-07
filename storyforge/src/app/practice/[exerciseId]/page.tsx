@@ -18,9 +18,11 @@ import {
 import { getExerciseById } from "@/data/exercises";
 import { useProgressStore } from "@/stores/useProgressStore";
 import { useGamificationStore } from "@/stores/useGamificationStore";
+import { useSettingsStore } from "@/stores/useSettingsStore";
 import { XP_REWARDS } from "@/lib/xp";
 import Button from "@/components/ui/Button";
 import Badge from "@/components/ui/Badge";
+import ProviderSelector from "@/components/ui/ProviderSelector";
 
 interface AIFeedback {
   overallImpression: string;
@@ -37,6 +39,7 @@ export default function ExercisePage() {
 
   const { submitExercise, submittedExercises } = useProgressStore();
   const { addXP, unlockBadge } = useGamificationStore();
+  const { provider } = useSettingsStore();
 
   const [writing, setWriting] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -78,6 +81,7 @@ export default function ExercisePage() {
             techniqueCategory: exercise.techniqueCategory,
           },
           writing,
+          provider,
         }),
       });
 
@@ -109,7 +113,7 @@ export default function ExercisePage() {
       setError(
         err instanceof Error
           ? err.message
-          : "Something went wrong. Make sure ANTHROPIC_API_KEY is set in .env.local"
+          : "Something went wrong. Check that your AI provider is configured in .env.local"
       );
     } finally {
       setIsSubmitting(false);
@@ -211,7 +215,7 @@ export default function ExercisePage() {
               </div>
             </div>
 
-            <div className="mt-4 flex items-center gap-3">
+            <div className="mt-4 flex items-center gap-3 flex-wrap">
               <Button
                 onClick={handleSubmit}
                 disabled={wordCount < 20 || isSubmitting}
@@ -228,6 +232,7 @@ export default function ExercisePage() {
                   </>
                 )}
               </Button>
+              <ProviderSelector />
               {wordCount < 20 && wordCount > 0 && (
                 <span className="text-xs text-[var(--muted)]">
                   Write at least 20 words
