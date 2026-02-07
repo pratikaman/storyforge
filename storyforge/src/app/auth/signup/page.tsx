@@ -39,7 +39,7 @@ export default function SignupPage() {
     setLoading(true);
 
     const supabase = createClient();
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -51,6 +51,15 @@ export default function SignupPage() {
 
     if (error) {
       setError(error.message);
+      setLoading(false);
+      return;
+    }
+
+    // Supabase returns an empty identities array when the email is already registered
+    if (data.user && data.user.identities?.length === 0) {
+      setError(
+        "An account with this email already exists. Please sign in instead."
+      );
       setLoading(false);
       return;
     }
@@ -125,9 +134,19 @@ export default function SignupPage() {
           <>
             {/* Error */}
             {error && (
-              <div className="flex items-center gap-2 p-3 mb-6 rounded-lg bg-red-500/10 border border-red-500/20 text-red-500 text-sm">
-                <AlertCircle className="w-4 h-4 shrink-0" />
-                {error}
+              <div className="flex items-start gap-2 p-3 mb-6 rounded-lg bg-red-500/10 border border-red-500/20 text-red-500 text-sm">
+                <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+                <div>
+                  {error}
+                  {error.includes("already exists") && (
+                    <Link
+                      href="/auth/login"
+                      className="block mt-1 text-[var(--accent)] hover:underline font-medium"
+                    >
+                      Go to Sign In &rarr;
+                    </Link>
+                  )}
+                </div>
               </div>
             )}
 
