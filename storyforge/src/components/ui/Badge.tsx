@@ -9,11 +9,11 @@ interface BadgeProps {
 }
 
 const variants = {
-  default: "bg-[var(--surface)] text-[var(--muted)] border-[var(--border)]",
-  gold: "bg-gold-500/10 text-gold-500 border-gold-500/20",
-  success: "bg-emerald-500/10 text-emerald-500 border-emerald-500/20",
-  warning: "bg-amber-500/10 text-amber-500 border-amber-500/20",
-  info: "bg-blue-500/10 text-blue-400 border-blue-500/20",
+  default: "bg-[var(--surface-2)] text-[var(--muted)]",
+  gold: "bg-[var(--accent)]/10 text-[var(--accent)]",
+  success: "bg-emerald-500/10 text-emerald-500",
+  warning: "bg-amber-500/10 text-amber-500",
+  info: "bg-blue-500/10 text-blue-400",
 };
 
 export default function Badge({
@@ -23,9 +23,9 @@ export default function Badge({
 }: BadgeProps) {
   return (
     <span
-      className={`inline-flex items-center gap-1 rounded-full border font-medium ${
+      className={`inline-flex items-center gap-1 rounded-full font-mono font-medium ${
         variants[variant]
-      } ${size === "sm" ? "px-2 py-0.5 text-xs" : "px-3 py-1 text-sm"}`}
+      } ${size === "sm" ? "px-2 py-0.5 text-[10px]" : "px-3 py-1 text-xs"}`}
     >
       {children}
     </span>
@@ -41,7 +41,7 @@ export function AnimatedBadge({
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       transition={{ type: "spring", bounce: 0.5 }}
-      className={`inline-flex items-center gap-1 rounded-full border font-medium px-3 py-1 text-sm ${variants[variant]}`}
+      className={`inline-flex items-center gap-1 rounded-full font-mono font-medium px-3 py-1 text-xs ${variants[variant]}`}
     >
       {children}
     </motion.span>

@@ -24,7 +24,7 @@ export default function ProviderSelector() {
       <select
         value={provider}
         onChange={(e) => setProvider(e.target.value as ProviderName)}
-        className="text-xs px-2 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--surface)] text-foreground focus:outline-none focus:border-gold-500/50 transition-colors cursor-pointer"
+        className="text-xs px-2 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--surface)] text-foreground focus:outline-none focus:border-[var(--accent)]/50 transition-colors cursor-pointer"
       >
         {availableProviders.map((p) => (
           <option key={p.name} value={p.name} disabled={!p.configured}>

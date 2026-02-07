@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
-import { BookOpen, Mail, Lock, AlertCircle } from "lucide-react";
+import { BookOpen, AlertCircle } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 
 export default function LoginPage() {
@@ -42,17 +42,15 @@ export default function LoginPage() {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       className="w-full max-w-md mx-4"
     >
-      <div className="p-8 rounded-2xl border border-[var(--border)] bg-[var(--surface)] backdrop-blur-xl shadow-xl">
+      <div className="p-8 rounded-xl bg-[var(--surface)] shadow-lg">
         {/* Header */}
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2 mb-6">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center">
-              <BookOpen className="w-5 h-5 text-navy-900" />
-            </div>
+            <BookOpen className="w-5 h-5 text-[var(--accent)]" />
             <span className="font-display text-2xl font-bold">StoryForge</span>
           </Link>
           <h1 className="font-display text-2xl font-bold mb-1">Welcome back</h1>
@@ -63,7 +61,7 @@ export default function LoginPage() {
 
         {/* Error */}
         {error && (
-          <div className="flex items-center gap-2 p-3 mb-6 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
+          <div className="flex items-center gap-2 p-3 mb-6 rounded-lg bg-red-500/10 text-red-400 text-sm">
             <AlertCircle className="w-4 h-4 shrink-0" />
             {error}
           </div>
@@ -112,18 +110,15 @@ export default function LoginPage() {
             >
               Email
             </label>
-            <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--muted)]" />
-              <input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                placeholder="you@example.com"
-                className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-[var(--border)] bg-[var(--background)] text-sm focus:outline-none focus:ring-2 focus:ring-gold-500/50 focus:border-gold-500"
-              />
-            </div>
+            <input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              placeholder="you@example.com"
+              className="w-full px-4 py-2.5 rounded-lg border border-[var(--border)] bg-[var(--background)] text-sm focus:outline-none focus:border-[var(--accent)] transition-colors"
+            />
           </div>
 
           <div>
@@ -133,24 +128,21 @@ export default function LoginPage() {
             >
               Password
             </label>
-            <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--muted)]" />
-              <input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                placeholder="••••••••"
-                className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-[var(--border)] bg-[var(--background)] text-sm focus:outline-none focus:ring-2 focus:ring-gold-500/50 focus:border-gold-500"
-              />
-            </div>
+            <input
+              id="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              placeholder="••••••••"
+              className="w-full px-4 py-2.5 rounded-lg border border-[var(--border)] bg-[var(--background)] text-sm focus:outline-none focus:border-[var(--accent)] transition-colors"
+            />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-2.5 rounded-lg bg-gradient-to-r from-gold-500 to-gold-600 text-navy-900 font-semibold text-sm hover:from-gold-400 hover:to-gold-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-2.5 rounded-full bg-[var(--accent)] text-zinc-900 font-semibold text-sm hover:brightness-110 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? "Signing in..." : "Sign In"}
           </button>
@@ -160,7 +152,7 @@ export default function LoginPage() {
           Don&apos;t have an account?{" "}
           <Link
             href="/auth/signup"
-            className="text-gold-500 hover:text-gold-400 font-medium"
+            className="text-[var(--accent)] hover:brightness-110 font-medium"
           >
             Sign up
           </Link>

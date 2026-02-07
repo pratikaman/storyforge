@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { useGamificationStore } from "@/stores/useGamificationStore";
 
 export default function LevelBadge({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
@@ -14,12 +13,11 @@ export default function LevelBadge({ size = "md" }: { size?: "sm" | "md" | "lg" 
 
   return (
     <div className="flex flex-col items-center gap-1">
-      <motion.div
-        className={`${sizes[size]} rounded-xl bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center font-bold text-navy-900 shadow-lg shadow-gold-500/20`}
-        whileHover={{ scale: 1.1, rotate: 5 }}
+      <div
+        className={`${sizes[size]} rounded-full border-2 border-[var(--accent)] flex items-center justify-center font-mono font-bold text-[var(--accent)]`}
       >
         {level}
-      </motion.div>
+      </div>
       <span className="text-xs font-medium text-[var(--muted)]">
         {levelTitle}
       </span>

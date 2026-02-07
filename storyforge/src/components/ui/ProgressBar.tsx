@@ -15,12 +15,11 @@ export default function ProgressBar({
   value,
   max = 100,
   size = "md",
-  color = "from-gold-400 to-gold-600",
   showLabel = false,
   animated = true,
 }: ProgressBarProps) {
   const percentage = Math.min(Math.round((value / max) * 100), 100);
-  const heights = { sm: "h-1.5", md: "h-2.5", lg: "h-4" };
+  const heights = { sm: "h-1.5", md: "h-2.5", lg: "h-3.5" };
 
   return (
     <div className="w-full">
@@ -33,10 +32,10 @@ export default function ProgressBar({
         </div>
       )}
       <div
-        className={`w-full ${heights[size]} bg-[var(--surface)] rounded-full overflow-hidden`}
+        className={`w-full ${heights[size]} bg-[var(--border)]/30 rounded-full overflow-hidden`}
       >
         <motion.div
-          className={`h-full bg-gradient-to-r ${color} rounded-full`}
+          className="h-full bg-[var(--accent)] rounded-full"
           initial={animated ? { width: 0 } : false}
           animate={{ width: `${percentage}%` }}
           transition={{ duration: 0.8, ease: "easeOut" }}

@@ -6,8 +6,6 @@ import Link from "next/link";
 import {
   ArrowLeft,
   CheckCircle,
-  Clock,
-  BookOpen,
   ChevronRight,
 } from "lucide-react";
 import { getModuleById } from "@/data/curriculum";
@@ -51,95 +49,65 @@ export default function ModulePage() {
 
       {/* Module Header */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         className="mb-10"
       >
-        <div className="flex items-start gap-4 mb-4">
-          <div className="w-16 h-16 rounded-2xl bg-gold-500/10 flex items-center justify-center text-3xl">
-            {courseModule.icon}
-          </div>
-          <div className="flex-1">
-            <span className="text-xs font-mono font-bold text-gold-500">
-              MODULE {String(courseModule.order).padStart(2, "0")}
-            </span>
-            <h1 className="font-display text-3xl sm:text-4xl font-bold">
-              {courseModule.title}
-            </h1>
-          </div>
-        </div>
+        <span className="font-mono text-xs font-bold text-[var(--accent)]">
+          MODULE {String(courseModule.order).padStart(2, "0")}
+        </span>
+        <h1 className="font-display text-3xl sm:text-4xl font-bold mt-1 mb-4">
+          {courseModule.title}
+        </h1>
         <p className="text-[var(--muted)] mb-6">{courseModule.description}</p>
 
-        <div className="flex items-center gap-4">
-          <ProgressBar
-            value={completed}
-            max={courseModule.lessons.length}
-            size="md"
-            showLabel
-          />
-        </div>
+        <ProgressBar
+          value={completed}
+          max={courseModule.lessons.length}
+          size="md"
+          showLabel
+        />
       </motion.div>
 
       {/* Lessons List */}
-      <div className="space-y-4">
+      <div className="space-y-2">
         {courseModule.lessons.map((lesson, index) => {
           const isCompleted = completedLessons.includes(lesson.id);
 
           return (
             <motion.div
               key={lesson.id}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.08 }}
+              transition={{ delay: index * 0.05 }}
             >
               <Link href={`/learn/${moduleId}/${lesson.id}`}>
                 <div
-                  className={`flex items-center gap-4 p-5 rounded-xl border transition-all group ${
+                  className={`flex items-center gap-4 p-4 rounded-xl transition-all group ${
                     isCompleted
-                      ? "border-emerald-500/30 bg-emerald-500/5"
-                      : "border-[var(--border)] bg-[var(--surface)] hover:border-gold-500/30"
+                      ? "bg-emerald-500/5 hover:bg-emerald-500/10"
+                      : "bg-[var(--surface)] hover:bg-[var(--surface-2)]"
                   }`}
                 >
                   {/* Lesson Number */}
-                  <div
-                    className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${
-                      isCompleted
-                        ? "bg-emerald-500/20"
-                        : "bg-[var(--surface-2)]"
-                    }`}
-                  >
+                  <div className="w-8 flex-shrink-0 text-center">
                     {isCompleted ? (
-                      <CheckCircle className="w-5 h-5 text-emerald-500" />
+                      <CheckCircle className="w-5 h-5 text-emerald-500 mx-auto" />
                     ) : (
-                      <span className="text-sm font-bold text-[var(--muted)]">
-                        {index + 1}
+                      <span className="font-mono text-sm font-bold text-[var(--muted)]">
+                        {String(index + 1).padStart(2, "0")}
                       </span>
                     )}
                   </div>
 
                   {/* Content */}
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-semibold group-hover:text-gold-500 transition-colors">
+                    <h3 className="font-semibold group-hover:text-[var(--accent)] transition-colors">
                       {lesson.title}
                     </h3>
-                    <p className="text-sm text-[var(--muted)] line-clamp-1">
-                      {lesson.description}
-                    </p>
                   </div>
 
-                  {/* Meta */}
-                  <div className="hidden sm:flex items-center gap-4 text-xs text-[var(--muted)]">
-                    <span className="flex items-center gap-1">
-                      <BookOpen className="w-3.5 h-3.5" />
-                      {lesson.examples.length} examples
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Clock className="w-3.5 h-3.5" />
-                      ~10 min
-                    </span>
-                  </div>
-
-                  <ChevronRight className="w-4 h-4 text-[var(--muted)] group-hover:text-gold-500 transition-colors flex-shrink-0" />
+                  <ChevronRight className="w-4 h-4 text-[var(--muted)] group-hover:text-[var(--accent)] transition-colors flex-shrink-0" />
                 </div>
               </Link>
             </motion.div>

@@ -135,7 +135,7 @@ export default function ExercisePage() {
         {/* Left: Prompt & Editor */}
         <div>
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             className="mb-6"
           >
@@ -165,23 +165,23 @@ export default function ExercisePage() {
 
           {/* Prompt */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="p-5 rounded-xl border border-gold-500/20 bg-gold-500/5 mb-6"
+            className="p-5 rounded-xl bg-[var(--surface)] border-l-2 border-[var(--accent)] mb-6"
           >
             <p className="text-sm leading-relaxed">{exercise.prompt}</p>
           </motion.div>
 
           {/* Tips */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.15 }}
             className="mb-6"
           >
             <h3 className="text-sm font-semibold mb-2 flex items-center gap-1.5">
-              <Lightbulb className="w-4 h-4 text-gold-500" />
+              <Lightbulb className="w-4 h-4 text-[var(--accent)]" />
               Tips
             </h3>
             <ul className="space-y-1.5">
@@ -190,7 +190,7 @@ export default function ExercisePage() {
                   key={i}
                   className="text-xs text-[var(--muted)] flex items-start gap-2"
                 >
-                  <span className="text-gold-500 mt-0.5">&#8226;</span>
+                  <span className="text-[var(--accent)] mt-0.5">&#8226;</span>
                   {tip}
                 </li>
               ))}
@@ -199,7 +199,7 @@ export default function ExercisePage() {
 
           {/* Editor */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
           >
@@ -208,7 +208,7 @@ export default function ExercisePage() {
                 value={writing}
                 onChange={(e) => setWriting(e.target.value)}
                 placeholder="Start writing here..."
-                className="w-full h-80 p-4 rounded-xl border border-[var(--border)] bg-[var(--surface)] text-foreground resize-none focus:outline-none focus:border-gold-500/50 transition-colors font-body text-sm leading-relaxed"
+                className="w-full h-80 p-4 rounded-xl border border-[var(--border)] bg-[var(--surface)] text-foreground resize-none focus:outline-none focus:border-[var(--accent)] transition-colors font-body text-sm leading-relaxed"
               />
               <div className="absolute bottom-3 right-3 text-xs text-[var(--muted)]">
                 {wordCount} words
@@ -247,10 +247,10 @@ export default function ExercisePage() {
           <AnimatePresence mode="wait">
             {error && (
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
-                className="p-5 rounded-xl border border-red-500/30 bg-red-500/5"
+                className="p-5 rounded-xl border-l-2 border-red-500 bg-red-500/5"
               >
                 <div className="flex items-center gap-2 mb-2">
                   <AlertCircle className="w-5 h-5 text-red-500" />
@@ -266,10 +266,10 @@ export default function ExercisePage() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="h-full flex items-center justify-center p-12 rounded-xl border border-dashed border-[var(--border)] bg-[var(--surface)]"
+                className="h-full flex items-center justify-center p-12 rounded-xl border border-dashed border-[var(--border)]"
               >
                 <div className="text-center">
-                  <Star className="w-12 h-12 text-[var(--muted)] mx-auto mb-4 opacity-30" />
+                  <Star className="w-10 h-10 text-[var(--muted)] mx-auto mb-4 opacity-20" />
                   <p className="text-[var(--muted)] text-sm">
                     Write your response and submit to receive AI-powered
                     feedback on your writing.
@@ -281,13 +281,13 @@ export default function ExercisePage() {
             {feedback && (
               <motion.div
                 key="feedback"
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="space-y-6"
               >
                 {/* Overall */}
-                <div className="p-5 rounded-xl border border-gold-500/30 bg-gold-500/5">
-                  <h3 className="font-display font-bold mb-2">
+                <div className="p-5 rounded-xl bg-[var(--surface)] border-l-2 border-[var(--accent)]">
+                  <h3 className="font-display font-bold mb-2 text-[var(--accent)]">
                     Overall Impression
                   </h3>
                   <p className="text-sm text-[var(--muted)] leading-relaxed">
@@ -300,9 +300,9 @@ export default function ExercisePage() {
                   {Object.entries(feedback.scores).map(([key, value]) => (
                     <div
                       key={key}
-                      className="p-4 rounded-xl border border-[var(--border)] bg-[var(--surface)] text-center"
+                      className="p-4 rounded-xl bg-[var(--surface)] text-center"
                     >
-                      <p className="text-2xl font-bold text-gold-500">
+                      <p className="font-mono text-2xl font-bold text-[var(--accent)]">
                         {value}
                       </p>
                       <p className="text-xs text-[var(--muted)] capitalize">
@@ -313,7 +313,7 @@ export default function ExercisePage() {
                 </div>
 
                 {/* Strengths */}
-                <div className="p-5 rounded-xl border border-emerald-500/30 bg-emerald-500/5">
+                <div className="p-5 rounded-xl bg-emerald-500/5 border-l-2 border-emerald-500">
                   <h3 className="font-semibold text-emerald-500 mb-3 flex items-center gap-2">
                     <CheckCircle className="w-4 h-4" />
                     Strengths
@@ -332,7 +332,7 @@ export default function ExercisePage() {
                 </div>
 
                 {/* Improvements */}
-                <div className="p-5 rounded-xl border border-blue-500/30 bg-blue-500/5">
+                <div className="p-5 rounded-xl bg-blue-500/5 border-l-2 border-blue-400">
                   <h3 className="font-semibold text-blue-400 mb-3 flex items-center gap-2">
                     <Lightbulb className="w-4 h-4" />
                     Areas for Growth
@@ -351,7 +351,7 @@ export default function ExercisePage() {
                 </div>
 
                 {/* Next Step */}
-                <div className="p-5 rounded-xl border border-[var(--border)] bg-[var(--surface)]">
+                <div className="p-5 rounded-xl bg-[var(--surface)]">
                   <h3 className="font-semibold mb-2">Next Step</h3>
                   <p className="text-sm text-[var(--muted)]">
                     {feedback.nextStep}

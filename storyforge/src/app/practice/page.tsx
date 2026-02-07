@@ -24,12 +24,12 @@ export default function PracticePage() {
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         className="mb-12"
       >
         <h1 className="font-display text-4xl font-bold mb-3">
-          Writing <span className="text-gradient">Practice</span>
+          Writing Practice
         </h1>
         <p className="text-[var(--muted)] max-w-2xl">
           Put your knowledge into practice with guided writing exercises.
@@ -38,76 +38,78 @@ export default function PracticePage() {
         </p>
       </motion.div>
 
-      {/* Stats */}
+      {/* Stats — inline */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="grid grid-cols-3 gap-4 mb-10"
+        className="flex items-center gap-6 mb-10 text-sm"
       >
-        <div className="p-4 rounded-xl border border-[var(--border)] bg-[var(--surface)] text-center">
-          <p className="text-2xl font-bold text-gold-500">
+        <div>
+          <span className="font-mono font-bold text-xl text-[var(--accent)]">
             {exercises.length}
-          </p>
-          <p className="text-xs text-[var(--muted)]">Exercises</p>
+          </span>
+          <span className="text-[var(--muted)] ml-2">Exercises</span>
         </div>
-        <div className="p-4 rounded-xl border border-[var(--border)] bg-[var(--surface)] text-center">
-          <p className="text-2xl font-bold text-emerald-500">
+        <div className="w-px h-5 bg-[var(--border)]" />
+        <div>
+          <span className="font-mono font-bold text-xl text-emerald-500">
             {submittedExercises.length}
-          </p>
-          <p className="text-xs text-[var(--muted)]">Completed</p>
+          </span>
+          <span className="text-[var(--muted)] ml-2">Completed</span>
         </div>
-        <div className="p-4 rounded-xl border border-[var(--border)] bg-[var(--surface)] text-center">
-          <p className="text-2xl font-bold text-purple-500">
+        <div className="w-px h-5 bg-[var(--border)]" />
+        <div>
+          <span className="font-mono font-bold text-xl text-foreground">
             {exercises.length - submittedExercises.length}
-          </p>
-          <p className="text-xs text-[var(--muted)]">Remaining</p>
+          </span>
+          <span className="text-[var(--muted)] ml-2">Remaining</span>
         </div>
       </motion.div>
 
       {/* Exercise List */}
-      <div className="space-y-4">
+      <div className="space-y-2">
         {exercises.map((exercise, index) => {
           const isSubmitted = submittedExercises.includes(exercise.id);
 
           return (
             <motion.div
               key={exercise.id}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.05 }}
+              transition={{ delay: index * 0.03 }}
             >
               <Link href={`/practice/${exercise.id}`}>
                 <div
-                  className={`flex items-center gap-4 p-5 rounded-xl border transition-all group ${
+                  className={`flex items-center gap-4 p-4 rounded-xl transition-all group ${
                     isSubmitted
-                      ? "border-emerald-500/30 bg-emerald-500/5"
-                      : "border-[var(--border)] bg-[var(--surface)] hover:border-gold-500/30"
+                      ? "bg-emerald-500/5 hover:bg-emerald-500/10"
+                      : "bg-[var(--surface)] hover:bg-[var(--surface-2)]"
                   }`}
                 >
                   <div
-                    className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${
+                    className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
                       isSubmitted
                         ? "bg-emerald-500/20 text-emerald-500"
-                        : "bg-gold-500/10 text-gold-500"
+                        : "bg-[var(--accent)]/10 text-[var(--accent)]"
                     }`}
                   >
-                    <PenTool className="w-5 h-5" />
+                    <PenTool className="w-4 h-4" />
                   </div>
 
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      <h3 className="font-semibold group-hover:text-gold-500 transition-colors">
+                    <div className="flex items-center gap-2 mb-0.5">
+                      <h3 className="font-semibold text-sm group-hover:text-[var(--accent)] transition-colors">
                         {exercise.title}
                       </h3>
                       <Badge variant={difficultyColors[exercise.difficulty]}>
                         {exercise.difficulty}
                       </Badge>
                       {isSubmitted && (
-                        <Badge variant="success">Completed</Badge>
+                        <Badge variant="success">Done</Badge>
                       )}
                     </div>
-                    <p className="text-sm text-[var(--muted)] line-clamp-1">
+                    <p className="text-xs text-[var(--muted)] line-clamp-1">
                       {exercise.description}
                     </p>
                   </div>
@@ -124,7 +126,7 @@ export default function PracticePage() {
                     </span>
                   </div>
 
-                  <ChevronRight className="w-4 h-4 text-[var(--muted)] group-hover:text-gold-500 transition-colors flex-shrink-0" />
+                  <ChevronRight className="w-4 h-4 text-[var(--muted)] group-hover:text-[var(--accent)] transition-colors flex-shrink-0" />
                 </div>
               </Link>
             </motion.div>
