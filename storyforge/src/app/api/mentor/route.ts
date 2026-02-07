@@ -8,7 +8,7 @@ const VALID_PROVIDERS: ProviderName[] = ["anthropic", "openrouter", "bedrock"];
 export async function POST(request: NextRequest) {
   try {
     // Auth check
-    const supabase = createClient();
+    const supabase = await createClient();
     const {
       data: { user },
     } = await supabase.auth.getUser();
