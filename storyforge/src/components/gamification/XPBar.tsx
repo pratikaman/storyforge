@@ -25,7 +25,7 @@ export default function XPBar() {
     <div className="relative">
       <div className="flex items-center gap-3">
         <div className="flex items-center gap-2">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center font-bold text-navy-900 text-sm">
+          <div className="w-10 h-10 rounded-full border-2 border-[var(--accent)] flex items-center justify-center font-mono font-bold text-[var(--accent)] text-sm">
             {level}
           </div>
           <div>
@@ -36,9 +36,9 @@ export default function XPBar() {
           </div>
         </div>
         <div className="flex-1">
-          <div className="w-full h-2 bg-[var(--surface)] rounded-full overflow-hidden">
+          <div className="w-full h-2 bg-[var(--border)]/30 rounded-full overflow-hidden">
             <motion.div
-              className="h-full bg-gradient-to-r from-gold-400 to-gold-600 rounded-full"
+              className="h-full bg-[var(--accent)] rounded-full"
               initial={{ width: 0 }}
               animate={{ width: `${progress}%` }}
               transition={{ duration: 0.8, ease: "easeOut" }}
@@ -54,7 +54,7 @@ export default function XPBar() {
             initial={{ opacity: 0, y: 10, scale: 0.8 }}
             animate={{ opacity: 1, y: -10, scale: 1 }}
             exit={{ opacity: 0, y: -30 }}
-            className="absolute -top-8 right-0 flex items-center gap-1 px-2 py-1 rounded-full bg-gold-500 text-navy-900 text-xs font-bold shadow-lg"
+            className="absolute -top-8 right-0 flex items-center gap-1 px-2 py-1 rounded-full bg-[var(--accent)] text-zinc-900 text-xs font-bold shadow-lg"
           >
             <Sparkles className="w-3 h-3" />+{recentXPGain.amount} XP
           </motion.div>

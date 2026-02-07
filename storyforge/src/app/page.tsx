@@ -3,15 +3,11 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import {
-  BookOpen,
   Compass,
   PenTool,
-  Sparkles,
   Brain,
   Trophy,
   ArrowRight,
-  Star,
-  Zap,
 } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { useAuth } from "@/components/auth/AuthProvider";
@@ -21,29 +17,25 @@ const features = [
     icon: Compass,
     title: "Guided Learning Path",
     description:
-      "8 expertly crafted modules taking you from story structure to narrative mastery, with real examples from literature and film.",
-    color: "from-blue-400 to-indigo-600",
+      "8 expertly crafted modules from story structure to narrative mastery.",
   },
   {
     icon: PenTool,
     title: "Hands-On Practice",
     description:
-      "Sharpen your craft with targeted writing exercises designed to build specific storytelling skills.",
-    color: "from-emerald-400 to-teal-600",
+      "Targeted writing exercises to build specific storytelling skills.",
   },
   {
     icon: Brain,
     title: "AI Writing Mentor",
     description:
-      "Get personalized feedback on your writing from an AI mentor that scores creativity, structure, voice, and technique.",
-    color: "from-purple-400 to-violet-600",
+      "Personalized feedback on creativity, structure, voice, and technique.",
   },
   {
     icon: Trophy,
     title: "Gamified Progress",
     description:
-      "Earn XP, unlock badges, maintain streaks, and level up from Scribbler to Master Narrator.",
-    color: "from-gold-400 to-amber-600",
+      "Earn XP, unlock badges, maintain streaks, and level up your craft.",
   },
 ];
 
@@ -68,64 +60,50 @@ const testimonials = [
   },
 ];
 
-const stats = [
-  { label: "Lessons", value: "32+", icon: BookOpen },
-  { label: "Writing Exercises", value: "12+", icon: PenTool },
-  { label: "Techniques", value: "15+", icon: Star },
-  { label: "Badges to Earn", value: "15", icon: Trophy },
+const modules = [
+  { num: "01", title: "The Story Spine" },
+  { num: "02", title: "Character Craft" },
+  { num: "03", title: "Conflict & Tension" },
+  { num: "04", title: "Dialogue" },
+  { num: "05", title: "World-Building" },
+  { num: "06", title: "Pacing & Structure" },
+  { num: "07", title: "Theme & Meaning" },
+  { num: "08", title: "Narrative Voice" },
 ];
 
 export default function HomePage() {
   const { user } = useAuth();
 
   return (
-    <div className="relative">
+    <div>
       {/* Hero Section */}
-      <section className="relative overflow-hidden min-h-[90vh] flex items-center">
-        {/* Background effects */}
-        <div className="absolute inset-0 bg-hero-pattern" />
-        <div className="absolute top-20 left-1/4 w-96 h-96 bg-gold-500/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 right-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
-
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <div className="text-center max-w-4xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-500/10 border border-gold-500/20 text-gold-500 text-sm font-medium mb-6">
-                <Sparkles className="w-4 h-4" />
-                Your storytelling journey begins here
-              </span>
-            </motion.div>
-
+      <section className="min-h-[85vh] flex items-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+          <div className="max-w-3xl">
             <motion.h1
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="font-display text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight mb-6"
+              transition={{ duration: 0.5 }}
+              className="font-display text-5xl sm:text-6xl lg:text-8xl font-bold tracking-tight mb-6 leading-[1.05]"
             >
-              Master the Art of{" "}
-              <span className="text-gradient">Storytelling</span>
+              Master the art of{" "}
+              <span className="text-[var(--accent)]">storytelling</span>
             </motion.h1>
 
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-lg sm:text-xl text-[var(--muted)] max-w-2xl mx-auto mb-10 leading-relaxed"
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="text-lg text-[var(--muted)] max-w-xl mb-10 leading-relaxed"
             >
-              From the hero&apos;s journey to narrative voice, learn the craft
-              behind the world&apos;s greatest stories. Practice with guided
-              exercises and get AI-powered feedback on your writing.
+              Learn the craft behind great stories. Practice with guided exercises and get AI-powered feedback on your writing.
             </motion.p>
 
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="flex flex-col sm:flex-row items-center justify-center gap-4"
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="flex items-center gap-6"
             >
               <Link href={user ? "/learn" : "/auth/signup"}>
                 <Button size="lg">
@@ -133,83 +111,76 @@ export default function HomePage() {
                   <ArrowRight className="w-5 h-5" />
                 </Button>
               </Link>
-              <Link href="/reference">
-                <Button variant="outline" size="lg">
-                  Browse Techniques
-                </Button>
+              <Link
+                href="/reference"
+                className="text-sm text-[var(--muted)] hover:text-foreground transition-colors"
+              >
+                Browse Techniques
               </Link>
             </motion.div>
 
-            {/* Stats */}
+            {/* Stats bar */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-              className="mt-16 grid grid-cols-2 sm:grid-cols-4 gap-6"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              className="mt-20 flex items-center gap-8 text-sm"
             >
-              {stats.map((stat) => {
-                const Icon = stat.icon;
-                return (
-                  <div key={stat.label} className="text-center">
-                    <div className="flex items-center justify-center gap-2 mb-1">
-                      <Icon className="w-4 h-4 text-gold-500" />
-                      <span className="text-2xl font-bold text-foreground">
-                        {stat.value}
-                      </span>
-                    </div>
-                    <span className="text-sm text-[var(--muted)]">
-                      {stat.label}
-                    </span>
-                  </div>
-                );
-              })}
+              <div>
+                <span className="font-mono font-bold text-xl text-foreground">32+</span>
+                <span className="text-[var(--muted)] ml-2">Lessons</span>
+              </div>
+              <div className="w-px h-6 bg-[var(--border)]" />
+              <div>
+                <span className="font-mono font-bold text-xl text-foreground">12+</span>
+                <span className="text-[var(--muted)] ml-2">Exercises</span>
+              </div>
+              <div className="w-px h-6 bg-[var(--border)]" />
+              <div>
+                <span className="font-mono font-bold text-xl text-foreground">15</span>
+                <span className="text-[var(--muted)] ml-2">Badges</span>
+              </div>
             </motion.div>
           </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section className="py-24 relative">
+      <section className="py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+          <motion.h2
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="font-display text-3xl sm:text-4xl font-light mb-16"
           >
-            <h2 className="font-display text-3xl sm:text-4xl font-bold mb-4">
-              Everything You Need to{" "}
-              <span className="text-gradient">Write Better</span>
-            </h2>
-            <p className="text-[var(--muted)] max-w-2xl mx-auto">
-              A complete learning platform designed to transform you from a
-              reader who admires great stories into a writer who creates them.
-            </p>
-          </motion.div>
+            Everything you need to write better
+          </motion.h2>
 
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="space-y-0">
             {features.map((feature, index) => {
               const Icon = feature.icon;
+              const isEven = index % 2 === 1;
               return (
                 <motion.div
                   key={feature.title}
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 16 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  className="group relative p-8 rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-gold-500/30 transition-all"
+                  transition={{ delay: index * 0.08 }}
+                  className={`flex items-start gap-6 py-8 border-b border-[var(--border)] last:border-b-0 ${
+                    isEven ? "sm:flex-row-reverse sm:text-right" : ""
+                  }`}
                 >
-                  <div
-                    className={`w-12 h-12 rounded-xl bg-gradient-to-br ${feature.color} flex items-center justify-center mb-4`}
-                  >
-                    <Icon className="w-6 h-6 text-white" />
+                  <Icon className="w-6 h-6 text-[var(--accent)] flex-shrink-0 mt-0.5" />
+                  <div>
+                    <h3 className="font-display text-lg font-bold mb-1">
+                      {feature.title}
+                    </h3>
+                    <p className="text-[var(--muted)] text-sm max-w-md">
+                      {feature.description}
+                    </p>
                   </div>
-                  <h3 className="font-display text-xl font-bold mb-2">
-                    {feature.title}
-                  </h3>
-                  <p className="text-[var(--muted)] leading-relaxed">
-                    {feature.description}
-                  </p>
                 </motion.div>
               );
             })}
@@ -220,58 +191,39 @@ export default function HomePage() {
       {/* Curriculum Preview */}
       <section className="py-24 bg-[var(--surface)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+          <motion.h2
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="font-display text-3xl sm:text-4xl font-light mb-16"
           >
-            <h2 className="font-display text-3xl sm:text-4xl font-bold mb-4">
-              Your Learning <span className="text-gradient">Journey</span>
-            </h2>
-            <p className="text-[var(--muted)] max-w-2xl mx-auto">
-              8 carefully structured modules that build on each other, taking you
-              from the foundations of story structure to advanced narrative techniques.
-            </p>
-          </motion.div>
+            Your learning journey
+          </motion.h2>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {[
-              { num: "01", title: "The Story Spine", icon: "📖" },
-              { num: "02", title: "Character Craft", icon: "👤" },
-              { num: "03", title: "Conflict & Tension", icon: "⚔️" },
-              { num: "04", title: "Dialogue", icon: "💬" },
-              { num: "05", title: "World-Building", icon: "🌍" },
-              { num: "06", title: "Pacing & Structure", icon: "⏱️" },
-              { num: "07", title: "Theme & Meaning", icon: "💡" },
-              { num: "08", title: "Narrative Voice", icon: "🎭" },
-            ].map((module, index) => (
+          <div className="space-y-0">
+            {modules.map((mod, index) => (
               <motion.div
-                key={module.num}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                key={mod.num}
+                initial={{ opacity: 0, x: -10 }}
+                whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.05 }}
-                className="p-5 rounded-xl border border-[var(--border)] bg-[var(--background)] hover:border-gold-500/30 transition-all group"
+                transition={{ delay: index * 0.04 }}
+                className="flex items-baseline gap-6 py-4 border-b border-[var(--border)] last:border-b-0 group"
               >
-                <div className="flex items-start gap-3">
-                  <span className="text-2xl">{module.icon}</span>
-                  <div>
-                    <span className="text-xs text-gold-500 font-mono font-bold">
-                      MODULE {module.num}
-                    </span>
-                    <h3 className="font-display font-bold mt-0.5 group-hover:text-gold-500 transition-colors">
-                      {module.title}
-                    </h3>
-                  </div>
-                </div>
+                <span className="font-mono text-sm text-[var(--muted)] w-6">
+                  {mod.num}
+                </span>
+                <span className="text-[var(--muted)]">&mdash;</span>
+                <h3 className="font-display text-lg font-bold group-hover:text-[var(--accent)] transition-colors">
+                  {mod.title}
+                </h3>
               </motion.div>
             ))}
           </div>
 
-          <div className="text-center mt-10">
+          <div className="mt-12">
             <Link href="/learn">
-              <Button variant="outline" size="lg">
+              <Button variant="outline">
                 Explore Full Curriculum
                 <ArrowRight className="w-4 h-4" />
               </Button>
@@ -283,38 +235,28 @@ export default function HomePage() {
       {/* Testimonials */}
       <section className="py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+          <motion.h2
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="font-display text-3xl sm:text-4xl font-light mb-16"
           >
-            <h2 className="font-display text-3xl sm:text-4xl font-bold mb-4">
-              Writers Love{" "}
-              <span className="text-gradient">StoryForge</span>
-            </h2>
-          </motion.div>
+            Writers love StoryForge
+          </motion.h2>
 
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-3 gap-8">
             {testimonials.map((testimonial, index) => (
               <motion.div
                 key={testimonial.author}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="p-6 rounded-2xl border border-[var(--border)] bg-[var(--surface)]"
+                className="border-l-2 border-[var(--accent)] pl-6"
               >
-                <div className="flex gap-1 mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className="w-4 h-4 text-gold-500 fill-gold-500"
-                    />
-                  ))}
-                </div>
-                <p className="text-[var(--muted)] mb-4 italic leading-relaxed">
-                  &ldquo;{testimonial.quote}&rdquo;
+                <span className="text-4xl font-display text-[var(--accent)] leading-none">&ldquo;</span>
+                <p className="text-[var(--muted)] mb-4 leading-relaxed text-sm">
+                  {testimonial.quote}
                 </p>
                 <div>
                   <p className="font-semibold text-sm">{testimonial.author}</p>
@@ -329,26 +271,20 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gold-500/5 to-transparent" />
-        <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <section className="py-24">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="font-display text-3xl sm:text-4xl font-bold mb-4">
-              Ready to Start Your{" "}
-              <span className="text-gradient">Story?</span>
+            <h2 className="font-display text-3xl sm:text-4xl font-bold mb-8">
+              Ready to start your story?
             </h2>
-            <p className="text-[var(--muted)] mb-8 max-w-lg mx-auto">
-              Every great writer started somewhere. Begin your journey today and
-              discover the storyteller within you.
-            </p>
             <Link href={user ? "/learn" : "/auth/signup"}>
               <Button size="lg">
-                <Zap className="w-5 h-5" />
                 {user ? "Continue Learning" : "Begin Your Journey"}
+                <ArrowRight className="w-5 h-5" />
               </Button>
             </Link>
           </motion.div>

@@ -50,19 +50,17 @@ export default function BadgeGrid() {
         return (
           <motion.div
             key={badge.id}
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.05 }}
-            className={`flex flex-col items-center gap-2 p-3 rounded-xl border transition-all ${
-              isUnlocked
-                ? "border-gold-500/30 bg-gold-500/5"
-                : "border-[var(--border)] bg-[var(--surface)] opacity-40"
+            transition={{ delay: index * 0.03 }}
+            className={`flex flex-col items-center gap-2 p-3 rounded-xl bg-[var(--surface)] shadow-sm transition-all ${
+              isUnlocked ? "" : "opacity-40"
             }`}
           >
             <div
-              className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+              className={`w-10 h-10 rounded-full flex items-center justify-center ${
                 isUnlocked
-                  ? "bg-gradient-to-br from-gold-400 to-gold-600 text-navy-900"
+                  ? "bg-[var(--accent)]/15 text-[var(--accent)]"
                   : "bg-[var(--surface-2)] text-[var(--muted)]"
               }`}
             >

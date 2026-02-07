@@ -39,6 +39,7 @@ export default function Navbar() {
   const { user } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -49,6 +50,14 @@ export default function Navbar() {
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  useEffect(() => {
+    function handleScroll() {
+      setScrolled(window.scrollY > 10);
+    }
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   function handleLogout() {
@@ -67,20 +76,22 @@ export default function Navbar() {
   const avatarLetter = displayName.charAt(0).toUpperCase();
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-glass dark:bg-glass border-b border-[var(--border)]">
+    <nav
+      className={`fixed top-0 left-0 right-0 z-50 bg-[var(--background)] border-b border-[var(--border)] transition-shadow duration-200 ${
+        scrolled ? "shadow-sm" : ""
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center">
-              <BookOpen className="w-4 h-4 text-navy-900" />
-            </div>
-            <span className="font-display text-xl font-bold text-foreground group-hover:text-gold-500 transition-colors">
+          <Link href="/" className="flex items-center gap-2.5 group">
+            <BookOpen className="w-5 h-5 text-[var(--accent)]" />
+            <span className="font-display text-xl font-bold text-foreground">
               StoryForge
             </span>
           </Link>
 
-          {/* Desktop Nav — only when logged in */}
+          {/* Desktop Nav */}
           {user && (
             <div className="hidden md:flex items-center gap-1">
               {navLinks.map((link) => {
@@ -91,9 +102,9 @@ export default function Navbar() {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`relative flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                    className={`relative flex items-center gap-2 px-4 py-2 text-sm font-medium transition-colors ${
                       isActive
-                        ? "text-gold-500"
+                        ? "text-foreground"
                         : "text-[var(--muted)] hover:text-foreground"
                     }`}
                   >
@@ -102,8 +113,8 @@ export default function Navbar() {
                     {isActive && (
                       <motion.div
                         layoutId="navbar-indicator"
-                        className="absolute inset-0 bg-gold-500/10 rounded-lg border border-gold-500/20"
-                        transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                        className="absolute bottom-0 left-2 right-2 h-0.5 bg-[var(--accent)]"
+                        transition={{ type: "spring", bounce: 0.2, duration: 0.5 }}
                       />
                     )}
                   </Link>
@@ -114,7 +125,7 @@ export default function Navbar() {
 
           {/* Right side */}
           <div className="flex items-center gap-3">
-            {/* Streak — logged in only */}
+            {/* Streak */}
             {user && streak > 0 && (
               <div className="hidden sm:flex items-center gap-1 text-sm">
                 <Flame className="w-4 h-4 text-orange-500" />
@@ -122,14 +133,11 @@ export default function Navbar() {
               </div>
             )}
 
-            {/* Level Badge — logged in only */}
+            {/* Level Badge */}
             {user && (
-              <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-gold-500/10 border border-gold-500/20">
-                <span className="text-xs font-bold text-gold-500">
-                  Lv.{level}
-                </span>
-                <span className="text-xs text-[var(--muted)]">{levelTitle}</span>
-              </div>
+              <span className="hidden sm:inline text-xs text-[var(--muted)]">
+                Lv.{level} {levelTitle}
+              </span>
             )}
 
             {/* Theme Toggle */}
@@ -139,9 +147,9 @@ export default function Navbar() {
               aria-label="Toggle theme"
             >
               {theme === "dark" ? (
-                <Sun className="w-4 h-4 text-gold-400" />
+                <Sun className="w-4 h-4 text-[var(--accent)]" />
               ) : (
-                <Moon className="w-4 h-4 text-navy-600" />
+                <Moon className="w-4 h-4 text-[var(--muted)]" />
               )}
             </button>
 
@@ -150,13 +158,13 @@ export default function Navbar() {
               <div className="relative" ref={userMenuRef}>
                 <button
                   onClick={() => setUserMenuOpen(!userMenuOpen)}
-                  className="w-8 h-8 rounded-full bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center text-navy-900 font-bold text-sm hover:ring-2 hover:ring-gold-500/50 transition-all"
+                  className="w-8 h-8 rounded-full bg-[var(--accent)] flex items-center justify-center text-zinc-900 font-bold text-sm transition-all hover:ring-2 hover:ring-[var(--accent)]/30"
                 >
                   {avatarLetter}
                 </button>
 
                 {userMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-56 rounded-xl border border-[var(--border)] bg-[var(--surface)] shadow-xl py-2 z-50">
+                  <div className="absolute right-0 mt-2 w-56 rounded-lg bg-[var(--surface)] shadow-lg py-2 z-50">
                     <div className="px-4 py-2 border-b border-[var(--border)]">
                       <p className="text-sm font-medium truncate">{displayName}</p>
                       <p className="text-xs text-[var(--muted)] truncate">
@@ -187,14 +195,14 @@ export default function Navbar() {
               <div className="hidden sm:flex items-center gap-2">
                 <Link
                   href="/auth/login"
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium text-[var(--muted)] hover:text-foreground transition-colors"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium text-[var(--muted)] hover:text-foreground transition-colors"
                 >
                   <LogIn className="w-4 h-4" />
                   Log In
                 </Link>
                 <Link
                   href="/auth/signup"
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-gold-500 to-gold-600 text-navy-900 text-sm font-semibold hover:from-gold-400 hover:to-gold-500 transition-all"
+                  className="flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[var(--accent)] text-zinc-900 text-sm font-semibold hover:brightness-110 transition-all"
                 >
                   <UserPlus className="w-4 h-4" />
                   Sign Up
@@ -240,7 +248,7 @@ export default function Navbar() {
                       onClick={() => setMobileOpen(false)}
                       className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
                         isActive
-                          ? "text-gold-500 bg-gold-500/10"
+                          ? "text-foreground bg-[var(--surface)]"
                           : "text-[var(--muted)] hover:text-foreground hover:bg-[var(--surface)]"
                       }`}
                     >
@@ -272,7 +280,7 @@ export default function Navbar() {
                 <Link
                   href="/auth/signup"
                   onClick={() => setMobileOpen(false)}
-                  className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gold-500 bg-gold-500/10"
+                  className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-[var(--accent)] bg-[var(--accent)]/10"
                 >
                   <UserPlus className="w-4 h-4" />
                   Sign Up

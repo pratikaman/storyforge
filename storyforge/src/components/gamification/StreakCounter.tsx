@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { Flame } from "lucide-react";
 import { useGamificationStore } from "@/stores/useGamificationStore";
 
@@ -17,25 +16,13 @@ export default function StreakCounter({ size = "md" }: { size?: "sm" | "md" | "l
 
   return (
     <div className={`flex items-center ${s.container}`}>
-      <motion.div
-        animate={
-          streak > 0
-            ? {
-                scale: [1, 1.2, 1],
-                rotate: [0, -5, 5, 0],
-              }
-            : {}
-        }
-        transition={{ duration: 0.6, repeat: Infinity, repeatDelay: 2 }}
-      >
-        <Flame
-          size={s.icon}
-          className={streak > 0 ? "text-orange-500" : "text-[var(--muted)]"}
-          fill={streak > 0 ? "currentColor" : "none"}
-        />
-      </motion.div>
+      <Flame
+        size={s.icon}
+        className={streak > 0 ? "text-orange-500" : "text-[var(--muted)]"}
+        fill={streak > 0 ? "currentColor" : "none"}
+      />
       <span
-        className={`font-bold ${s.text} ${
+        className={`font-mono font-bold ${s.text} ${
           streak > 0 ? "text-orange-500" : "text-[var(--muted)]"
         }`}
       >

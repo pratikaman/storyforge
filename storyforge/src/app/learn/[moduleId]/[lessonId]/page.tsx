@@ -134,12 +134,12 @@ export default function LessonPage() {
 
       {/* Lesson Header */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         className="mb-8"
       >
         <div className="flex items-center gap-2 mb-2">
-          <span className="text-xs font-mono font-bold text-gold-500">
+          <span className="font-mono text-xs font-bold text-[var(--accent)]">
             LESSON {currentLessonIndex + 1} of {courseModule.lessons.length}
           </span>
           {isCompleted && (
@@ -152,17 +152,17 @@ export default function LessonPage() {
         <p className="text-[var(--muted)] mt-2">{lesson.description}</p>
       </motion.div>
 
-      {/* Tabs */}
-      <div className="flex gap-1 p-1 rounded-xl bg-[var(--surface)] border border-[var(--border)] mb-8">
+      {/* Tabs — underline style */}
+      <div className="flex gap-0 border-b border-[var(--border)] mb-8">
         {tabs.map((tab) => {
           const Icon = tab.icon;
           return (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`relative flex-1 flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg text-sm font-medium transition-all ${
+              className={`relative flex items-center gap-2 py-3 px-4 text-sm font-medium transition-colors ${
                 activeTab === tab.id
-                  ? "text-gold-500"
+                  ? "text-foreground"
                   : "text-[var(--muted)] hover:text-foreground"
               }`}
             >
@@ -171,8 +171,8 @@ export default function LessonPage() {
               {activeTab === tab.id && (
                 <motion.div
                   layoutId="lesson-tab"
-                  className="absolute inset-0 bg-gold-500/10 border border-gold-500/20 rounded-lg"
-                  transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-[var(--accent)]"
+                  transition={{ type: "spring", bounce: 0.2, duration: 0.5 }}
                 />
               )}
             </button>
@@ -188,7 +188,7 @@ export default function LessonPage() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="prose prose-lg dark:prose-invert max-w-none prose-headings:font-display prose-a:text-gold-500 prose-strong:text-foreground"
+            className="prose prose-lg dark:prose-invert max-w-none prose-headings:font-display prose-a:text-[var(--accent)] prose-strong:text-foreground"
           >
             <ReactMarkdown>{lesson.content}</ReactMarkdown>
           </motion.div>
@@ -205,13 +205,13 @@ export default function LessonPage() {
             {lesson.examples.map((example, index) => (
               <div
                 key={index}
-                className="p-6 rounded-xl border border-[var(--border)] bg-[var(--surface)]"
+                className="p-6 rounded-xl bg-[var(--surface)]"
               >
                 <div className="flex items-center gap-2 mb-3">
-                  <Sparkles className="w-4 h-4 text-gold-500" />
+                  <Sparkles className="w-4 h-4 text-[var(--accent)]" />
                   <h3 className="font-display font-bold">{example.title}</h3>
                 </div>
-                <p className="text-xs text-gold-500 font-medium mb-3">
+                <p className="text-xs text-[var(--accent)] font-medium mb-3">
                   From: {example.source}
                 </p>
                 <p className="text-[var(--muted)] leading-relaxed">
@@ -233,7 +233,7 @@ export default function LessonPage() {
             {lesson.quiz.map((question, qIndex) => (
               <div
                 key={qIndex}
-                className="p-6 rounded-xl border border-[var(--border)] bg-[var(--surface)]"
+                className="p-6 rounded-xl bg-[var(--surface)]"
               >
                 <h3 className="font-semibold mb-4">
                   {qIndex + 1}. {question.question}
@@ -260,35 +260,16 @@ export default function LessonPage() {
                           }
                         }}
                         disabled={quizSubmitted}
-                        className={`w-full text-left p-3 rounded-lg border transition-all flex items-center gap-3 ${
+                        className={`w-full text-left p-3 rounded-lg border transition-all ${
                           isCorrect
                             ? "border-emerald-500 bg-emerald-500/10 text-emerald-400"
                             : isWrong
                               ? "border-red-500 bg-red-500/10 text-red-400"
                               : isSelected
-                                ? "border-gold-500 bg-gold-500/10 text-gold-500"
-                                : "border-[var(--border)] hover:border-gold-500/30"
+                                ? "border-[var(--accent)] bg-[var(--accent)]/10 text-[var(--accent)]"
+                                : "border-[var(--border)] hover:border-[var(--accent)]/30"
                         }`}
                       >
-                        <span
-                          className={`w-6 h-6 rounded-full border-2 flex items-center justify-center text-xs font-bold flex-shrink-0 ${
-                            isCorrect
-                              ? "border-emerald-500 bg-emerald-500 text-white"
-                              : isWrong
-                                ? "border-red-500 bg-red-500 text-white"
-                                : isSelected
-                                  ? "border-gold-500 bg-gold-500 text-navy-900"
-                                  : "border-[var(--border)]"
-                          }`}
-                        >
-                          {isCorrect ? (
-                            <CheckCircle className="w-3.5 h-3.5" />
-                          ) : isWrong ? (
-                            <XCircle className="w-3.5 h-3.5" />
-                          ) : (
-                            String.fromCharCode(65 + oIndex)
-                          )}
-                        </span>
                         <span className="text-sm">{option}</span>
                       </button>
                     );
@@ -317,7 +298,7 @@ export default function LessonPage() {
                 Submit Answers
               </Button>
             ) : (
-              <div className="p-4 rounded-xl border border-gold-500/30 bg-gold-500/5">
+              <div className="p-4 rounded-xl bg-[var(--accent)]/5 border-l-2 border-[var(--accent)]">
                 <p className="font-semibold">
                   Score:{" "}
                   {
@@ -339,9 +320,9 @@ export default function LessonPage() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
           >
-            <div className="p-6 rounded-xl border border-[var(--border)] bg-[var(--surface)]">
+            <div className="p-6 rounded-xl bg-[var(--surface)] border-l-2 border-[var(--accent)]">
               <div className="flex items-center gap-2 mb-4">
-                <PenTool className="w-5 h-5 text-gold-500" />
+                <PenTool className="w-5 h-5 text-[var(--accent)]" />
                 <h3 className="font-display text-lg font-bold">
                   Writing Prompt
                 </h3>
@@ -381,34 +362,22 @@ export default function LessonPage() {
         </Button>
       </div>
 
-      {/* Celebration overlay */}
+      {/* Celebration toast */}
       <AnimatePresence>
         {showCelebration && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            className="fixed bottom-6 right-6 z-50 flex items-center gap-3 bg-[var(--surface)] border border-[var(--border)] rounded-xl px-5 py-4 shadow-lg"
           >
-            <motion.div
-              initial={{ scale: 0.5, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.5, opacity: 0 }}
-              className="bg-[var(--background)] border border-gold-500/30 rounded-2xl p-8 text-center shadow-2xl pointer-events-auto"
-            >
-              <motion.div
-                animate={{ rotate: [0, 10, -10, 0] }}
-                transition={{ duration: 0.5 }}
-              >
-                <Trophy className="w-12 h-12 text-gold-500 mx-auto mb-4" />
-              </motion.div>
-              <h3 className="font-display text-xl font-bold mb-2">
-                Lesson Complete!
-              </h3>
-              <p className="text-[var(--muted)] text-sm">
+            <Trophy className="w-6 h-6 text-[var(--accent)]" />
+            <div>
+              <p className="font-semibold text-sm">Lesson Complete!</p>
+              <p className="text-xs text-[var(--muted)]">
                 +{XP_REWARDS.COMPLETE_LESSON} XP earned
               </p>
-            </motion.div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

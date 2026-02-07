@@ -20,12 +20,12 @@ export default function ReferencePage() {
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         className="mb-12"
       >
         <h1 className="font-display text-4xl font-bold mb-3">
-          Storytelling <span className="text-gradient">Reference</span>
+          Storytelling Reference
         </h1>
         <p className="text-[var(--muted)] max-w-2xl">
           A comprehensive encyclopedia of storytelling techniques, with examples
@@ -36,34 +36,34 @@ export default function ReferencePage() {
 
       {/* Search & Filters */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
         className="mb-8 space-y-4"
       >
-        {/* Search */}
+        {/* Search — full width, larger */}
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--muted)]" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search techniques..."
-            className="w-full pl-10 pr-4 py-3 rounded-xl border border-[var(--border)] bg-[var(--surface)] text-foreground placeholder:text-[var(--muted)] focus:outline-none focus:border-gold-500/50 transition-colors text-sm"
+            className="w-full px-4 py-3.5 rounded-xl border border-[var(--border)] bg-[var(--surface)] text-foreground placeholder:text-[var(--muted)] focus:outline-none focus:border-[var(--accent)] transition-colors"
           />
+          <Search className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--muted)]" />
         </div>
 
-        {/* Category filters */}
+        {/* Category chips — pill shaped */}
         <div className="flex flex-wrap gap-2">
           <button
             onClick={() => {
               setActiveCategory("All");
               setSearchQuery("");
             }}
-            className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
+            className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${
               activeCategory === "All" && !searchQuery
-                ? "bg-gold-500/10 text-gold-500 border border-gold-500/20"
-                : "text-[var(--muted)] border border-[var(--border)] hover:text-foreground"
+                ? "bg-[var(--accent)] text-zinc-900"
+                : "text-[var(--muted)] bg-[var(--surface)] hover:text-foreground"
             }`}
           >
             All
@@ -75,10 +75,10 @@ export default function ReferencePage() {
                 setActiveCategory(cat);
                 setSearchQuery("");
               }}
-              className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
+              className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${
                 activeCategory === cat && !searchQuery
-                  ? "bg-gold-500/10 text-gold-500 border border-gold-500/20"
-                  : "text-[var(--muted)] border border-[var(--border)] hover:text-foreground"
+                  ? "bg-[var(--accent)] text-zinc-900"
+                  : "text-[var(--muted)] bg-[var(--surface)] hover:text-foreground"
               }`}
             >
               {cat}
@@ -87,31 +87,34 @@ export default function ReferencePage() {
         </div>
       </motion.div>
 
-      {/* Techniques Grid */}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {/* Techniques Grid — denser */}
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
         {filteredTechniques.map((technique, index) => (
           <motion.div
             key={technique.id}
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.04 }}
+            transition={{ delay: index * 0.03 }}
           >
             <Link href={`/reference/${technique.id}`}>
-              <div className="h-full p-5 rounded-xl border border-[var(--border)] bg-[var(--surface)] hover:border-gold-500/30 transition-all group">
-                <div className="flex items-start justify-between mb-3">
-                  <span className="px-2 py-0.5 rounded text-xs font-medium bg-gold-500/10 text-gold-500">
-                    {technique.category}
-                  </span>
-                  <ChevronRight className="w-4 h-4 text-[var(--muted)] group-hover:text-gold-500 transition-colors" />
+              <div className="h-full p-4 rounded-xl bg-[var(--surface)] hover:bg-[var(--surface-2)] transition-all group">
+                <div className="flex items-start justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-[var(--accent)]" />
+                    <span className="text-[10px] font-mono text-[var(--muted)]">
+                      {technique.category}
+                    </span>
+                  </div>
+                  <ChevronRight className="w-3.5 h-3.5 text-[var(--muted)] group-hover:text-[var(--accent)] transition-colors" />
                 </div>
-                <h3 className="font-display font-bold mb-2 group-hover:text-gold-500 transition-colors">
+                <h3 className="font-display font-bold text-sm mb-1 group-hover:text-[var(--accent)] transition-colors">
                   {technique.name}
                 </h3>
-                <p className="text-sm text-[var(--muted)] line-clamp-2">
+                <p className="text-xs text-[var(--muted)] line-clamp-2">
                   {technique.description}
                 </p>
-                <div className="mt-3 flex items-center gap-1 text-xs text-[var(--muted)]">
-                  <BookOpen className="w-3.5 h-3.5" />
+                <div className="mt-2 flex items-center gap-1 text-[10px] text-[var(--muted)]">
+                  <BookOpen className="w-3 h-3" />
                   {technique.examples.length} examples
                 </div>
               </div>
