@@ -39,6 +39,7 @@ export default function SignupPage() {
     setLoading(true);
 
     const supabase = createClient();
+    const redirectUrl = `${window.location.origin}/auth/callback`;
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -46,6 +47,7 @@ export default function SignupPage() {
         data: {
           display_name: displayName || email.split("@")[0],
         },
+        emailRedirectTo: redirectUrl,
       },
     });
 
