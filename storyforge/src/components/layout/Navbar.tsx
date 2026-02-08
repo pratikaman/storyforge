@@ -263,10 +263,7 @@ export default function Navbar() {
                 <form
                   action="/auth/signout"
                   method="POST"
-                  onSubmit={() => {
-                    setMobileOpen(false);
-                    handleLogout();
-                  }}
+                  onSubmit={handleLogout}
                 >
                   <button
                     type="submit"
