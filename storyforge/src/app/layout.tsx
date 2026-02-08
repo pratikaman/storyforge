@@ -18,7 +18,11 @@ const fraunces = Fraunces({
 });
 
 export const metadata: Metadata = {
-  title: "StoryForge — Master the Art of Storytelling",
+  metadataBase: new URL("https://storyforge.app"),
+  title: {
+    default: "StoryForge — Master the Art of Storytelling",
+    template: "%s | StoryForge",
+  },
   description:
     "Learn storytelling through guided lessons, hands-on practice, and AI-powered mentorship. From story structure to narrative voice, become the writer you were meant to be.",
   keywords: [
@@ -27,7 +31,48 @@ export const metadata: Metadata = {
     "writing course",
     "narrative",
     "fiction writing",
+    "story structure",
+    "character development",
+    "writing exercises",
+    "AI writing mentor",
+    "learn to write",
+    "hero's journey",
+    "three-act structure",
+    "dialogue writing",
+    "world-building",
   ],
+  authors: [{ name: "StoryForge" }],
+  creator: "StoryForge",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    siteName: "StoryForge",
+    title: "StoryForge — Master the Art of Storytelling",
+    description:
+      "Learn storytelling through guided lessons, hands-on practice, and AI-powered mentorship. 32 lessons, 12 exercises, and an AI writing mentor.",
+    url: "https://storyforge.app",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "StoryForge — Master the Art of Storytelling",
+    description:
+      "Learn storytelling through guided lessons, hands-on practice, and AI-powered mentorship.",
+    creator: "@storyforge",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  alternates: {
+    canonical: "https://storyforge.app",
+  },
 };
 
 export default async function RootLayout({

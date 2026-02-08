@@ -1,0 +1,10 @@
+# StoryForge robots.txt
+User-agent: *
+Allow: /
+
+Disallow: /api/
+Disallow: /auth/callback
+Disallow: /auth/signout
+Disallow: /profile
+
+Sitemap: https://storyforge.app/sitemap.xml
